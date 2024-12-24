@@ -2,6 +2,7 @@ import json
 from flask import Flask,render_template, request
 from read_org_master import get_org_details
 from get_profiles import get_profiles
+from read_ref_data import get_ref_details
 from create_profile import create_profile, updateProfile
 from flask import jsonify, make_response
 from flask_cors import CORS
@@ -40,6 +41,13 @@ def updateProfile():
     data = json.loads(request.data);      
     update_profile(data)    
     return make_response(jsonify({}), 200)
+
+@app.route('/getRef', methods=['GET', 'POST'])
+def getRefDetails():
+    refType = request.args.get('ref_type')
+    print(refType);
+    x=get_ref_details(refType);     
+    return make_response(jsonify(x), 200)
 
 if __name__ == "__main__":
  app.run()
