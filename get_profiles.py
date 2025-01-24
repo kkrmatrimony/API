@@ -16,7 +16,7 @@ def get_profiles():
         records = cursor.fetchall()       
         
         resultArray = [];
-        for row in records:
+        for row in records:            
             x = {
                 "profile_source":row[0],  
                 "profile_code":row[1], 
@@ -61,6 +61,14 @@ def get_profiles():
                 "age_pref_to":row[40],
                 "height_pref_from":row[41],
                 "height_pref_to":row[42], 
+                "profile_for":row[43],
+                "salary_currency":row[44],
+                "salary_preference":row[45],
+                "marriage_status":row[48],
+                "mother_tongue":row[49],
+                "citizenship":row[50],
+                "father_name":row[51],
+                "mother_name":row[52]
                 }  
             resultArray.append(x)           
         close_connection(connection)

@@ -51,7 +51,14 @@ def update_profile(data):
                         created_by=%s,
                         created_date=%s, 
                         updated_by=%s,
-                        updated_date=%s                       
+                        updated_date=%s,
+                        marriage_status=%s,
+                        citizenship=%s,
+                       salary_currency=%s,
+                       salary_preference=%s,
+                       mother_tongue=%s,
+                       father_name=%s,
+                       mother_name=%s                     
                        where profile_code=%s""",
                        (data['profile_source'], 
                         data['profile_name'],  
@@ -95,7 +102,15 @@ def update_profile(data):
                         currentDate, 
                         data['updated_by'],
                         currentDate, 
-                        data['profile_code']))              
+                        data['marriage_status'],
+                        data['citizenship'],                        
+                        data['salary_currency'],
+                        data['salary_preference'],
+                        data['mother_tongue'],
+                        data['father_name'],  
+                        data['mother_name'],
+                        data['profile_code'],
+                        ))              
         connection.commit();
         close_connection(connection)
          
