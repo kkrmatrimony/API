@@ -58,7 +58,8 @@ def update_profile(data):
                        mother_tongue=%s,
                        father_name=%s,
                        mother_name=%s,
-                       profile_for=%s                     
+                       profile_for=%s,
+                       job_country=%s                     
                        where profile_code=%s""",
                        (data['profile_source'], 
                         data['profile_name'],  
@@ -110,6 +111,7 @@ def update_profile(data):
                         data['father_name'],  
                         data['mother_name'],
                         data['profile_for'],
+                        data['job_country'],
                         data['profile_code']
                         ))              
         connection.commit();

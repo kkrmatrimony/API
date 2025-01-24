@@ -68,7 +68,8 @@ def get_profiles():
                 "mother_tongue":row[49],
                 "citizenship":row[50],
                 "father_name":row[51],
-                "mother_name":row[52]
+                "mother_name":row[52],
+                "job_country":row[53]
                 }  
             resultArray.append(x)           
         close_connection(connection)
