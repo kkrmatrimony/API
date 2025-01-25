@@ -17,3 +17,9 @@ def get_last_seq():
         return x;        
     except (Exception, mysql.connector.Error) as error:
         print("Error while getting data", error)
+
+
+def appendResponse(response):
+    resp = {'status':'success', 'data':response}
+    print(resp)
+    return resp;

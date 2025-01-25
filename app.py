@@ -1,6 +1,6 @@
 import json
 from flask import Flask,render_template, request
-from read_org_master import get_org_details, validate_login
+from read_org_master import get_org_details, validate_login, getSubscribers
 from get_profiles import get_profiles
 from read_ref_data import get_ref_details
 from create_profile import create_profile, updateProfile
@@ -23,6 +23,11 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():    
     x=validate_login(request.get_json());    
+    return make_response(jsonify(x), 200)
+
+@app.route('/getSubscriberIds', methods=['GET', 'POST'])
+def getSubscriberIds():    
+    x=getSubscribers();    
     return make_response(jsonify(x), 200)
 
 @app.route('/getprofiles', methods=['GET', 'POST'])

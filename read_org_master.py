@@ -3,6 +3,7 @@ import mysql.connector
 import requests
 from os import environ
 from connection import get_connection,close_connection
+from utils import appendResponse
 # def get_connection():
 #     connection = mysql.connector.connect(host=os.environ.get('KKKR_HOST'),
 #                                          database=os.environ.get('KKKR_SCHEMA'),
@@ -47,3 +48,23 @@ def validate_login(data):
     except (Exception, mysql.connector.Error) as error:
         print("Error while getting data", error)
 
+
+
+def getSubscribers():
+    try:        
+        connection = get_connection()
+        cursor = connection.cursor()        
+        cursor.execute('SELECT subscriber_id FROM user_master where user_type="S"')
+        records = cursor.fetchall()        
+        subscriberList = []
+        print(subscriberList);        
+        if len(records) == 0:
+            x ={"message": "No records Found"}
+        else:
+            for row in records:
+                x = {"subscriber_id":row[0]}
+                subscriberList.append(x)                  
+            close_connection(connection)        
+        return appendResponse(subscriberList);        
+    except (Exception, mysql.connector.Error) as error:
+        print("Error while getting data", error)
