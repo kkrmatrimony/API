@@ -28,3 +28,22 @@ def get_org_details():
         return x;        
     except (Exception, mysql.connector.Error) as error:
         print("Error while getting data", error)
+
+
+
+def validate_login(data):
+    try:        
+        connection = get_connection()
+        cursor = connection.cursor()        
+        cursor.execute('SELECT * FROM user_master where subscriber_name=%s and passkey=%s;', (data['username'], data['password']))
+        records = cursor.fetchall()        
+        if len(records) == 0:
+            x ={"message": "Invalid Credentials"}
+        else:
+            for row in records:
+                x = {"subscriber_source":row[0], "subscriber_id":row[1], "subscriber_name":row[2], "subscription_status":row[5], "user_type":row[6]}                  
+            close_connection(connection)
+        return x;        
+    except (Exception, mysql.connector.Error) as error:
+        print("Error while getting data", error)
+
