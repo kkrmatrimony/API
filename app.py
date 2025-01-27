@@ -32,8 +32,10 @@ def getSubscriberIds():
 
 @app.route('/getprofiles', methods=['GET', 'POST'])
 def getprofiles():
-    x=get_profiles();    
+    #print(request.args.get('filter'))
+    x=get_profiles(request.args.get('filter'));    
     return make_response(jsonify(x), 200)
+
 
 @app.route('/createProfile', methods=['POST'])
 def createProfile():

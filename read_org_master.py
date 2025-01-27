@@ -36,7 +36,7 @@ def validate_login(data):
     try:        
         connection = get_connection()
         cursor = connection.cursor()        
-        cursor.execute('SELECT * FROM user_master where subscriber_name=%s and passkey=%s;', (data['username'], data['password']))
+        cursor.execute('SELECT * FROM user_master where subscriber_id=%s and passkey=%s;', (data['username'], data['password']))
         records = cursor.fetchall()        
         if len(records) == 0:
             x ={"message": "Invalid Credentials"}
@@ -54,15 +54,14 @@ def getSubscribers():
     try:        
         connection = get_connection()
         cursor = connection.cursor()        
-        cursor.execute('SELECT subscriber_id FROM user_master where user_type="S"')
+        cursor.execute('SELECT subscriber_id, subscriber_name FROM user_master where user_type="S"')
         records = cursor.fetchall()        
-        subscriberList = []
-        print(subscriberList);        
+        subscriberList = []               
         if len(records) == 0:
             x ={"message": "No records Found"}
         else:
             for row in records:
-                x = {"subscriber_id":row[0]}
+                x = {"subscriber_id":row[0], "subscriber_name":row[1]}
                 subscriberList.append(x)                  
             close_connection(connection)        
         return appendResponse(subscriberList);        
