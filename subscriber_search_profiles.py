@@ -7,24 +7,20 @@ def serialize(row):
         "email" : row.email
     }
 
-def setQuery(scenario):
-    # Match the day to predefined patterns
-        match scenario:
-            case "LAST7DAYSCREATION":
-                query = "SELECT * FROM kkkr.profile_master where created_date >=  date_sub(curdate(),  interval 7 day)"  # Match last 7 days created records
-            case "LAST10DAYSUBS":
-                query = "SELECT * FROM kkkr.profile_master where subscription_end_date <=  date_add(curdate(),  interval 10 day)"  # Match subscriptions ending in next 10 days
-            case _:                
-                query = """select * from profile_master"""  # Default case - No filter
+def setQuery(data):    
+    if data['gendar'] == 'M':   
+        query = """select * from profile_master  where gendar='F' and age <= %s"""
         return query
+       
 
-def get_profiles(scenario):
+def match_profiles(data):
     try:
+        print(data)
         connection = get_connection()
         cursor = connection.cursor()        
-        sql_select_query = setQuery(scenario)       
+        sql_select_query = setQuery(data)       
         
-        cursor.execute(sql_select_query)
+        cursor.execute(sql_select_query, (data['age'],))
         records = cursor.fetchall()       
         
         resultArray = [];

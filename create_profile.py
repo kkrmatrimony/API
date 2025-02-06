@@ -12,9 +12,7 @@ def create_profile(data):
             profileCode = row[0]
             seq_no = row[1]                     
         currentDate =datetime.today().strftime('%Y-%m-%d')
-        validateInputs(data, profileCode)  
-        print(profileCode)
-        print(data)      
+        validateInputs(data, profileCode)           
         cursor.execute("""INSERT INTO profile_master(profile_source,
         profile_code, 
         profile_name,  
