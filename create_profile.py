@@ -12,7 +12,11 @@ def create_profile(data):
             profileCode = row[0]
             seq_no = row[1]                     
         currentDate =datetime.today().strftime('%Y-%m-%d')
-        validateInputs(data, profileCode)           
+        print(data['subscription_end_date'])
+        validateInputs(data, profileCode) 
+        date_obj =datetime.strptime(data['subscription_end_date'],'%a, %d %b %Y %H:%M:%S GMT')
+        subscription_end_date = date_obj.strftime('%Y-%m-%d')
+        print(subscription_end_date)          
         cursor.execute("""INSERT INTO profile_master(profile_source,
         profile_code, 
         profile_name,  
@@ -65,17 +69,18 @@ def create_profile(data):
         salary_currency,
         salary_preference,
         job_country,
-        subscriber_id) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,
+        subscriber_id,
+        subscription_end_date) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,
         %s, %s,%s, %s,%s, %s,%s, %s,%s, %s,
         %s, %s,%s, %s,%s, %s,%s, %s,%s, %s,
         %s, %s,%s, %s,%s, %s,%s, %s,%s, %s,
-        %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+        %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
         (data['profile_source'], profileCode, data['profile_name'],data['gendar'], data['profile_type'],data['dob'], data['age'],data['caste_sect'], data['subsect'],data['add_subsect'],
         data['gothram'],data['star_paadam'],data['rasi'],data['birth_time'],data['birth_place'],data['education'],data['occupation'],data['annual_income'],data['job_location'],data['height'],
         data['weight'],data['father_detail'],data['mother_detail'],data['sibling_detail'],data['contact_relation'],data['primary_contact'],data['secondary_contact'],data['email_id'],data['brief_detail'],data['expectation'],
         data['other_info'],data['agree_inform_marriage'],data['agree_inform_exit'],data['self_declaration'],data['star'],data['age_pref_from'],data['age_pref_to'],data['height_pref_from'],data['height_pref_to'],
         data['created_by'],currentDate, data['updated_by'], currentDate, data['marriage_status'],data['mother_tongue'],
-        data['father_name'],data['mother_name'], data['citizenship'],data['profile_for'],data['salary_currency'],data['salary_preference'], data['job_country'], data['subscriber_id']))                
+        data['father_name'],data['mother_name'], data['citizenship'],data['profile_for'],data['salary_currency'],data['salary_preference'], data['job_country'], data['subscriber_id'], subscription_end_date))                
         connection.commit();        
         updateSeqNumber(seq_no, 'PROFCODE')          
         close_connection(connection)
@@ -135,7 +140,8 @@ def validateInputs(data, profCode):
         'salary_currency',
         'salary_preference',
         'job_country',
-        'subscriber_id'
+        'subscriber_id',
+        'subscription_end_date'
         ]
     for key in data_map:
         if key == 'profile_code':

@@ -8,7 +8,10 @@ def update_profile(data):
     try:        
         connection = get_connection()
         cursor = connection.cursor()                
-        currentDate =datetime.today().strftime('%Y-%m-%d')        
+        currentDate =datetime.today().strftime('%Y-%m-%d')
+        date_obj =datetime.strptime(data['subscription_end_date'],'%a, %d %b %Y %H:%M:%S GMT')
+        subscription_end_date = date_obj.strftime('%Y-%m-%d')
+        print(subscription_end_date)          
         cursor.execute("""UPDATE profile_master SET profile_source=%s,
                         profile_name=%s,  
                         gendar=%s,
@@ -60,7 +63,8 @@ def update_profile(data):
                        mother_name=%s,
                        profile_for=%s,
                        job_country=%s,
-                       subscriber_id=%s                     
+                       subscriber_id=%s,
+                       subscription_end_date=%s                     
                        where profile_code=%s""",
                        (data['profile_source'], 
                         data['profile_name'],  
@@ -114,6 +118,7 @@ def update_profile(data):
                         data['profile_for'],
                         data['job_country'],
                         data['subscriber_id'],
+                        subscription_end_date,
                         data['profile_code']
                         ))              
         connection.commit();

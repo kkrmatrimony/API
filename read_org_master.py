@@ -54,14 +54,14 @@ def getSubscribers():
     try:        
         connection = get_connection()
         cursor = connection.cursor()        
-        cursor.execute('SELECT subscriber_id, subscriber_name FROM user_master where user_type="S"')
+        cursor.execute('SELECT subscriber_id, subscriber_name, subscription_upto FROM user_master where user_type="S"')
         records = cursor.fetchall()        
         subscriberList = []               
         if len(records) == 0:
             x ={"message": "No records Found"}
         else:
             for row in records:
-                x = {"subscriber_id":row[0], "subscriber_name":row[1]}
+                x = {"subscriber_id":row[0], "subscriber_name":row[1], "subscription_upto":row[2]}
                 subscriberList.append(x)                  
             close_connection(connection)        
         return appendResponse(subscriberList);        
