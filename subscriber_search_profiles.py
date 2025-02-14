@@ -11,6 +11,10 @@ def setQuery(data):
     if data['gendar'] == 'M':   
         query = """select * from profile_master  where gendar='F' and age <= %s"""
         return query
+    else: 
+        data['gendar'] == 'F'
+        query = """select * from profile_master  where gendar='M' and age >= %s"""
+        return query
        
 
 def match_profiles(data):
