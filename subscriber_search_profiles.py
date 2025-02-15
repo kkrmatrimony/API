@@ -1,11 +1,6 @@
 import mysql.connector
 import requests
 from connection import get_connection,close_connection
-def serialize(row):
-    return {
-        
-        "email" : row.email
-    }
 
 def setQuery(data):    
     if data['gendar'] == 'M':   
@@ -164,3 +159,16 @@ def get_profile_subscriberid(data):
         return resultArray;        
     except (Exception, mysql.connector.Error) as error:
         print("Error while getting data", error)
+
+def short_list_profile(data):
+    try:        
+        connection = get_connection()
+        cursor = connection.cursor()                        
+        cursor.execute("""INSERT INTO profile_handshake(src_profile_source, src_profile_code, tgt_profile_source, tgt_profile_code, 
+                       status) VALUES (%s, %s,%s, %s,%s)""",
+        (data['src_profile_source'], data['src_profile_code'], data['tgt_profile_source'],data['tgt_profile_code'], data['status']))                
+        connection.commit();                  
+        close_connection(connection)
+         
+    except (Exception) as error:
+        print("Error while inserting data", error)

@@ -2,7 +2,7 @@ import json
 from flask import Flask,render_template, request
 from read_org_master import get_org_details, validate_login, getSubscribers
 from get_profiles import get_profiles,get_profile_subscriberid
-from subscriber_search_profiles import match_profiles
+from subscriber_search_profiles import match_profiles, short_list_profile
 from read_ref_data import get_ref_details
 from create_profile import create_profile, updateProfile
 from flask import jsonify, make_response
@@ -53,6 +53,12 @@ def matchprofiles():
 def createProfile():
     data = json.loads(request.data);      
     create_profile(data)    
+    return make_response(jsonify({}), 200)
+
+@app.route('/shortListProfile', methods=['POST'])
+def sortListProfile():
+    data = json.loads(request.data);      
+    short_list_profile(data)    
     return make_response(jsonify({}), 200)
 
 @app.route('/updateProfile', methods=['PUT'])
