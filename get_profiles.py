@@ -99,8 +99,7 @@ def get_profile_subscriberid(data):
         cursor = connection.cursor()        
         sql_select_query = """select * from kkkr.profile_master where subscriber_id = %s"""           
         cursor.execute(sql_select_query, (subscriberId,))
-        records = cursor.fetchall()       
-        print(records)
+        records = cursor.fetchall()
         resultArray = [];
         for row in records:                     
             x = {
