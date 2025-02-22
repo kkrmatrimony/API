@@ -1,7 +1,7 @@
 import json
 from flask import Flask,render_template, request
 from read_org_master import get_org_details, validate_login, getSubscribers
-from get_profiles import get_profiles,get_profile_subscriberid
+from get_profiles import get_profiles,get_profile_subscriberid,get_myshortlisting
 from subscriber_search_profiles import match_profiles, short_list_profile, star_match_profiles, remove_short_list_profile
 from read_ref_data import get_ref_details
 from create_profile import create_profile, updateProfile
@@ -41,6 +41,13 @@ def getprofiles():
 def getprofilesBySubscriberId():
     #print(request.args.get('filter'))
     x=get_profile_subscriberid(request.get_json());    
+    return make_response(jsonify(x), 200)
+
+
+@app.route('/shortlistings', methods=['GET', 'POST'])
+def getShortlistedProfiles():
+    #print(request.args.get('filter'))
+    x=get_myshortlisting(request.get_json());    
     return make_response(jsonify(x), 200)
 
 @app.route('/matchprofiles', methods=['GET', 'POST'])
