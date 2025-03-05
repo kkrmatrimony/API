@@ -5,6 +5,7 @@ from get_profiles import get_profiles,get_profile_subscriberid,get_myshortlistin
 from subscriber_search_profiles import match_profiles, short_list_profile, star_match_profiles, remove_short_list_profile
 from read_ref_data import get_ref_details
 from create_profile import create_profile, updateProfile
+from upload import get_image, upload_image
 from flask import jsonify, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -74,8 +75,26 @@ def removeShortListProfile():
     remove_short_list_profile(data)    
     return make_response(jsonify({}), 200)
 
+
+@app.route('/uploadImage', methods=['POST'])
+def uploadImage():
+    if 'file' not in request.files:
+        return 'No file part', 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return 'No selected file', 400
+    #data = json.loads(request.data);      
+    upload_image('1', file)    
+    return make_response(jsonify({}), 200)
+
+@app.route('/getImage', methods=['GET'])
+def getImage():
+    x=get_image(1)
+    return make_response(jsonify(x), 200)
+
 @app.route('/updateProfile', methods=['PUT'])
-def updateProfile():
+def updateProfile():    
     data = json.loads(request.data);      
     update_profile(data)    
     return make_response(jsonify({}), 200)
