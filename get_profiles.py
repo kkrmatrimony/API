@@ -7,14 +7,24 @@ def serialize(row):
         "email" : row.email
     }
 
+# def setQuery(scenario):
+#     # Match the day to predefined patterns
+#         match scenario:
+#             case "LAST7DAYSCREATION":
+#                 query = "SELECT * FROM kkkr.profile_master where created_date >=  date_sub(curdate(),  interval 7 day)"  # Match last 7 days created records
+#             case "LAST10DAYSUBS":
+#                 query = "SELECT * FROM kkkr.profile_master where subscription_end_date <=  date_add(curdate(),  interval 10 day)"  # Match subscriptions ending in next 10 days
+#             case _:                
+#                 query = """select * from profile_master"""  # Default case - No filter
+#         return query
+
 def setQuery(scenario):
     # Match the day to predefined patterns
-        match scenario:
-            case "LAST7DAYSCREATION":
+        if scenario == "LAST7DAYSCREATION":           
                 query = "SELECT * FROM kkkr.profile_master where created_date >=  date_sub(curdate(),  interval 7 day)"  # Match last 7 days created records
-            case "LAST10DAYSUBS":
+        elif scenario == "LAST10DAYSUBS":
                 query = "SELECT * FROM kkkr.profile_master where subscription_end_date <=  date_add(curdate(),  interval 10 day)"  # Match subscriptions ending in next 10 days
-            case _:                
+        else:           
                 query = """select * from profile_master"""  # Default case - No filter
         return query
 
