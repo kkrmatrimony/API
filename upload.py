@@ -6,7 +6,12 @@ from os import environ
 from connection import get_connection,close_connection
 from flask import jsonify, request, send_file
 
-UPLOAD_FOLDER = 'C:\\ram\\projects\\kmatrimony\\API\\uploads'
+#UPLOAD_FOLDER = 'C:\\ram\\projects\\kmatrimony\\API\\uploads'
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Set the relative folder path (uploads folder in this case)
+UPLOAD_FOLDER = os.path.join(base_dir, 'uploads')
 
 
 # Allowed extensions for image uploads
@@ -30,8 +35,8 @@ def upload_image(file):
 def get_files():
     try:        
         # List all files in the specified directory (uploads folder)
-        #files = os.listdir(UPLOAD_FOLDER)
-        files = os.path.join('uploads')
+        files = os.listdir(UPLOAD_FOLDER)
+        #files = os.path.join('/uploads')
         
         # Filter out directories (only list files)
         files = [file for file in files if os.path.isfile(os.path.join(UPLOAD_FOLDER, file))]
