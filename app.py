@@ -1,11 +1,12 @@
 import json
-from flask import Flask,render_template, request
+import os
+from flask import Flask,render_template, request, send_from_directory
 from read_org_master import get_org_details, validate_login, getSubscribers
 from get_profiles import get_profiles,get_profile_subscriberid,get_myshortlisting
 from subscriber_search_profiles import match_profiles, short_list_profile, star_match_profiles, remove_short_list_profile
 from read_ref_data import get_ref_details
 from create_profile import create_profile, updateProfile
-from upload import get_image, upload_image
+from upload import get_files, upload_image
 from flask import jsonify, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -85,13 +86,24 @@ def uploadImage():
     if file.filename == '':
         return 'No selected file', 400
     #data = json.loads(request.data);      
-    upload_image('1', file)    
+    upload_image(file)    
     return make_response(jsonify({}), 200)
 
-@app.route('/getImage', methods=['GET'])
-def getImage():
-    x=get_image(1)
-    return make_response(jsonify(x), 200)
+@app.route('/uploads/<filename>', methods=['GET'])
+def get_image(filename):
+    try:
+        if not os.path.exists('uploads'):
+            os.makedirs('uploads')
+        # This will serve the image from the 'uploads' folder
+        return send_from_directory('uploads', filename)
+    except FileNotFoundError:
+        return jsonify({"error": "Image not found"}), 404
+    
+
+@app.route('/getFileList', methods=['GET', 'POST'])
+def getFileList():
+    x=get_files();     
+    return x
 
 @app.route('/updateProfile', methods=['PUT'])
 def updateProfile():    

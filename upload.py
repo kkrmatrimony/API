@@ -16,41 +16,33 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def upload_image(profile_code, file):
-    try:
-        if file and allowed_file(file.filename):
-        # Secure the filename and save the file
-            print(file.filename)
-            filename = file.filename
-            print(os.path.join('uploads', filename))
+def upload_image(file):
+    try:        
+        if file and allowed_file(file.filename):            
+        # Secure the filename and save the file           
+            filename = file.filename            
             file.save(os.path.join('uploads', filename))
             return {'message':'Uploaded'}
     except (Exception) as error:
         return f"Error: {error}", 500
+    
 
-
-
-def get_image(profile_code):
-    try:
-        # Connect to the database
-        connection = get_connection()
-        cursor = connection.cursor()
-
-        # Query the database for the image
-        cursor.execute("SELECT image FROM profile_image WHERE profile_code = %s", (profile_code,))
-        image = cursor.fetchone()
-
-        if image is None:
-            return 'Image not found', 404
+def get_files():
+    try:        
+        # List all files in the specified directory (uploads folder)
+        #files = os.listdir(UPLOAD_FOLDER)
+        files = os.path.join('uploads')
         
-        # Convert the binary data back to an image
-        image_name, image_data = image
-        cursor.close()
-        connection.close()
+        # Filter out directories (only list files)
+        files = [file for file in files if os.path.isfile(os.path.join(UPLOAD_FOLDER, file))]
+        
+        # Return the list of files as JSON response
+        return jsonify({'files': files}), 200
+    except FileNotFoundError:
+        return jsonify({'error': 'Directory not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-        # Send the image to the client
-        return send_file(BytesIO(image_data), attachment_filename=image_name, mimetype='image/jpeg')
 
-    except (Exception) as error:
-        return f"Error: {error}", 500
+
 
