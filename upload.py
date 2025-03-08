@@ -32,14 +32,14 @@ def upload_image(file):
         return f"Error: {error}", 500
     
 
-def get_files():
+def get_files(profCode):
     try:        
         # List all files in the specified directory (uploads folder)
         files = os.listdir(UPLOAD_FOLDER)
         #files = os.path.join('/uploads')
         
         # Filter out directories (only list files)
-        files = [file for file in files if os.path.isfile(os.path.join(UPLOAD_FOLDER, file))]
+        files = [file for file in files if os.path.isfile(os.path.join(UPLOAD_FOLDER, file)) and profCode in file]
         
         # Return the list of files as JSON response
         return jsonify({'files': files}), 200

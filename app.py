@@ -102,7 +102,7 @@ def get_image(filename):
 
 @app.route('/getFileList', methods=['GET', 'POST'])
 def getFileList():
-    x=get_files();     
+    x=get_files(request.args.get('filter'));     
     return x
 
 @app.route('/updateProfile', methods=['PUT'])
